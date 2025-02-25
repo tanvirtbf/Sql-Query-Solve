@@ -59,3 +59,44 @@ SELECT product_id, AVG(rating) AS average_rating FROM Reviews GROUP BY product_i
 
 -- 20. প্রতিটি শিপিং স্ট্যাটাস অনুযায়ী কতগুলো অর্ডার আছে তা দেখাও।
 SELECT status, COUNT(id) AS total_orders FROM Shipping GROUP BY status;
+
+
+JOIN RELATED EASY QUESTION : 
+-- 1. প্রতিটি অর্ডারের ইউজারের নাম ও ইমেইল দেখাও।
+SELECT Orders.id AS order_id, Users.name, Users.email 
+FROM Orders 
+JOIN Users ON Orders.user_id = Users.id;
+
+-- 2. প্রতিটি প্রোডাক্টের ক্যাটাগরি নাম সহ দেখাও।
+SELECT Products.name AS product_name, Categories.name AS category_name 
+FROM Products 
+JOIN Categories ON Products.category_id = Categories.id;
+
+-- 3. প্রতিটি অর্ডারে থাকা প্রোডাক্টের নাম এবং অর্ডার আইডি দেখাও।
+SELECT Order_Items.order_id, Products.name AS product_name 
+FROM Order_Items 
+JOIN Products ON Order_Items.product_id = Products.id;
+
+-- 4. প্রতিটি পেমেন্টের সাথে সংশ্লিষ্ট ইউজারের নাম দেখাও।
+SELECT Payments.id AS payment_id, Users.name AS user_name, Payments.amount 
+FROM Payments 
+JOIN Orders ON Payments.order_id = Orders.id 
+JOIN Users ON Orders.user_id = Users.id;
+
+-- 5. প্রতিটি শিপমেন্টের ট্র্যাকিং নম্বর এবং ইউজারের নাম দেখাও।
+SELECT Shipping.tracking_number, Users.name AS user_name 
+FROM Shipping 
+JOIN Orders ON Shipping.order_id = Orders.id 
+JOIN Users ON Orders.user_id = Users.id;
+
+-- 6. প্রতিটি অর্ডারে মোট কয়টি প্রোডাক্ট আছে তা দেখাও।
+SELECT Orders.id AS order_id, COUNT(Order_Items.product_id) AS total_products 
+FROM Orders 
+JOIN Order_Items ON Orders.id = Order_Items.order_id 
+GROUP BY Orders.id;
+
+-- 7. প্রতিটি রিভিউতে ইউজারের নাম এবং প্রোডাক্টের নাম দেখাও।
+SELECT Users.name AS user_name, Products.name AS product_name, Reviews.rating, Reviews.comment 
+FROM Reviews 
+JOIN Users ON Reviews.user_id = Users.id 
+JOIN Products ON Reviews.product_id = Products.id;
