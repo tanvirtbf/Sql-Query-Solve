@@ -118,4 +118,8 @@ SELECT Orders.id AS order_id, Payments.payment_method, Payments.status
 FROM Orders 
 JOIN Payments ON Orders.id = Payments.order_id;
 
-
+-- 11. প্রতিটি ইউজারের সর্বমোট কতগুলো অর্ডার রয়েছে এবং তাদের মোট খরচ কত?
+SELECT Users.name, COUNT(Orders.id) AS total_orders, SUM(Orders.total_price) AS total_spent 
+FROM Users 
+LEFT JOIN Orders ON Users.id = Orders.user_id 
+GROUP BY Users.id;
