@@ -100,3 +100,20 @@ SELECT Users.name AS user_name, Products.name AS product_name, Reviews.rating, R
 FROM Reviews 
 JOIN Users ON Reviews.user_id = Users.id 
 JOIN Products ON Reviews.product_id = Products.id;
+
+-- 8. প্রতিটি ক্যাটাগরিতে মোট কয়টি প্রোডাক্ট আছে তা দেখাও।
+SELECT Categories.name AS category_name, COUNT(Products.id) AS total_products 
+FROM Categories 
+LEFT JOIN Products ON Categories.id = Products.category_id 
+GROUP BY Categories.name;
+
+-- 9. প্রতিটি ইউজারের সর্বশেষ অর্ডারের তথ্য দেখাও।
+SELECT Users.name, Orders.id AS order_id, Orders.created_at 
+FROM Users 
+JOIN Orders ON Users.id = Orders.user_id 
+ORDER BY Orders.created_at DESC;
+
+-- 10. প্রতিটি অর্ডারে কোন পেমেন্ট মেথড ব্যবহার করা হয়েছে তা দেখাও।
+SELECT Orders.id AS order_id, Payments.payment_method, Payments.status 
+FROM Orders 
+JOIN Payments ON Orders.id = Payments.order_id;
