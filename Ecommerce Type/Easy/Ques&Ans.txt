@@ -117,3 +117,5 @@ ORDER BY Orders.created_at DESC;
 SELECT Orders.id AS order_id, Payments.payment_method, Payments.status 
 FROM Orders 
 JOIN Payments ON Orders.id = Payments.order_id;
+
+
