@@ -1,0 +1,147 @@
+-- Users Table
+CREATE TABLE Users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('customer', 'admin') DEFAULT 'customer',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO Users (name, email, password, role) VALUES
+('John Doe', 'john@example.com', 'hashed_password1', 'customer'),
+('Alice Smith', 'alice@example.com', 'hashed_password2', 'customer'),
+('Admin User', 'admin@example.com', 'hashed_password3', 'admin'),
+('Bob Brown', 'bob@example.com', 'hashed_password4', 'customer'),
+('Charlie Green', 'charlie@example.com', 'hashed_password5', 'customer');
+
+-- Categories Table
+CREATE TABLE Categories (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL
+);
+
+INSERT INTO Categories (name) VALUES 
+('Electronics'), ('Clothing'), ('Home & Kitchen'), ('Books'), ('Sports');
+
+-- Products Table
+CREATE TABLE Products (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    price DECIMAL(10,2) NOT NULL,
+    stock INT NOT NULL,
+    category_id INT,
+    FOREIGN KEY (category_id) REFERENCES Categories(id)
+);
+
+INSERT INTO Products (name, description, price, stock, category_id) VALUES
+('Laptop', 'High performance laptop', 999.99, 10, 1),
+('T-Shirt', 'Cotton t-shirt', 19.99, 50, 2),
+('Blender', 'Powerful kitchen blender', 49.99, 20, 3),
+('Headphones', 'Noise-canceling headphones', 199.99, 15, 1),
+('Running Shoes', 'Comfortable running shoes', 89.99, 30, 5);
+
+-- Orders Table
+CREATE TABLE Orders (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    total_price DECIMAL(10,2),
+    status ENUM('pending', 'shipped', 'delivered', 'cancelled') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+);
+
+INSERT INTO Orders (user_id, total_price, status) VALUES
+(1, 1019.98, 'pending'),
+(2, 69.98, 'shipped'),
+(3, 249.99, 'delivered'),
+(4, 119.99, 'pending'),
+(5, 329.99, 'cancelled');
+
+-- Order_Items Table
+CREATE TABLE Order_Items (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    order_id INT,
+    product_id INT,
+    quantity INT,
+    price DECIMAL(10,2),
+    FOREIGN KEY (order_id) REFERENCES Orders(id),
+    FOREIGN KEY (product_id) REFERENCES Products(id)
+);
+
+INSERT INTO Order_Items (order_id, product_id, quantity, price) VALUES
+(1, 1, 1, 999.99),
+(2, 3, 1, 49.99),
+(3, 4, 1, 199.99),
+(4, 5, 2, 179.98),
+(5, 2, 3, 59.97);
+
+-- Payments Table
+CREATE TABLE Payments (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    order_id INT,
+    amount DECIMAL(10,2),
+    payment_method ENUM('credit_card', 'paypal', 'bank_transfer'),
+    status ENUM('pending', 'completed', 'failed') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (order_id) REFERENCES Orders(id)
+);
+
+INSERT INTO Payments (order_id, amount, payment_method, status) VALUES
+(1, 1019.98, 'credit_card', 'completed'),
+(2, 69.98, 'paypal', 'completed'),
+(3, 249.99, 'bank_transfer', 'pending'),
+(4, 119.99, 'credit_card', 'failed'),
+(5, 329.99, 'paypal', 'completed');
+
+-- Shipping Table
+CREATE TABLE Shipping (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    order_id INT,
+    address VARCHAR(255) NOT NULL,
+    tracking_number VARCHAR(50),
+    status ENUM('preparing', 'shipped', 'delivered') DEFAULT 'preparing',
+    FOREIGN KEY (order_id) REFERENCES Orders(id)
+);
+
+INSERT INTO Shipping (order_id, address, tracking_number, status) VALUES
+(1, '123 Street, NY', 'TRACK12345', 'shipped'),
+(2, '456 Avenue, LA', 'TRACK67890', 'delivered'),
+(3, '789 Road, TX', 'TRACK11223', 'preparing'),
+(4, '101 Blvd, FL', 'TRACK44556', 'shipped'),
+(5, '202 Lane, WA', 'TRACK77889', 'delivered');
+
+-- Reviews Table
+CREATE TABLE Reviews (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    product_id INT,
+    rating INT CHECK (rating BETWEEN 1 AND 5),
+    comment TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(id),
+    FOREIGN KEY (product_id) REFERENCES Products(id)
+);
+
+INSERT INTO Reviews (user_id, product_id, rating, comment) VALUES
+(1, 1, 5, 'Great laptop!'),
+(2, 2, 4, 'Nice t-shirt'),
+(3, 3, 3, 'Blender is okay'),
+(4, 4, 5, 'Amazing headphones'),
+(5, 5, 4, 'Good shoes');
+
+-- Coupons Table
+CREATE TABLE Coupons (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    code VARCHAR(50) UNIQUE NOT NULL,
+    discount DECIMAL(5,2) NOT NULL,
+    expiry_date DATE
+);
+
+INSERT INTO Coupons (code, discount, expiry_date) VALUES
+('SAVE10', 10.00, '2025-12-31'),
+('FREESHIP', 5.00, '2025-06-30'),
+('BIGSALE20', 20.00, '2025-11-30'),
+('WELCOME5', 5.00, '2025-08-15'),
+('SPRING15', 15.00, '2025-04-01');
