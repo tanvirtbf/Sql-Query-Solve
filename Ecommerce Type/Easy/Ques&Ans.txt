@@ -131,3 +131,11 @@ SELECT Products.name, SUM(Order_Items.quantity) AS total_sold, SUM(Order_Items.q
 FROM Products 
 JOIN Order_Items ON Products.id = Order_Items.product_id 
 GROUP BY Products.id;
+
+-- 3. সর্বাধিক বিক্রিত ৩টি প্রোডাক্টের নাম এবং তাদের মোট বিক্রয় সংখ্যা দেখাও।
+SELECT Products.name, SUM(Order_Items.quantity) AS total_sold 
+FROM Products 
+JOIN Order_Items ON Products.id = Order_Items.product_id 
+GROUP BY Products.id 
+ORDER BY total_sold DESC 
+LIMIT 3;
