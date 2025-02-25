@@ -139,3 +139,5 @@ JOIN Order_Items ON Products.id = Order_Items.product_id
 GROUP BY Products.id 
 ORDER BY total_sold DESC 
 LIMIT 3;
+
+
