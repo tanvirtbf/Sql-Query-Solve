@@ -1,0 +1,96 @@
+-- Creating the 'customers' table
+CREATE TABLE customers (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    phone VARCHAR(20),
+    address TEXT
+);
+
+-- Inserting 20 rows into 'customers'
+INSERT INTO customers (name, email, phone, address) VALUES
+('Alice Johnson', 'alice@email.com', '1234567890', 'New York, USA'),
+('Bob Smith', 'bob@email.com', '9876543210', 'Los Angeles, USA'),
+('Charlie Brown', 'charlie@email.com', '4561237890', 'Chicago, USA'),
+('David Lee', 'david@email.com', '7891234560', 'Houston, USA'),
+('Emma Watson', 'emma@email.com', '3216549870', 'San Francisco, USA'),
+('Frank Martin', 'frank@email.com', '1593574860', 'Seattle, USA'),
+('Grace Kelly', 'grace@email.com', '7539518520', 'Boston, USA'),
+('Hank Moody', 'hank@email.com', '8529637410', 'Miami, USA'),
+('Ivy Green', 'ivy@email.com', '9517538520', 'Dallas, USA'),
+('Jack Sparrow', 'jack@email.com', '7894561230', 'Orlando, USA'),
+('Kate Winslet', 'kate@email.com', '3692581470', 'Denver, USA'),
+('Leo Messi', 'leo@email.com', '1472583690', 'Austin, USA'),
+('Mona Lisa', 'mona@email.com', '2583691470', 'Las Vegas, USA'),
+('Nancy Drew', 'nancy@email.com', '3691472580', 'Philadelphia, USA'),
+('Oscar Wilde', 'oscar@email.com', '1597534862', 'San Diego, USA'),
+('Paul Walker', 'paul@email.com', '7534861592', 'Phoenix, USA'),
+('Quincy Adams', 'quincy@email.com', '9871236548', 'San Jose, USA'),
+('Rachel Green', 'rachel@email.com', '6549871236', 'Portland, USA'),
+('Steve Rogers', 'steve@email.com', '3217896549', 'Atlanta, USA'),
+('Tony Stark', 'tony@email.com', '9873216547', 'Washington DC, USA');
+
+-- Creating the 'products' table
+CREATE TABLE products (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    price DECIMAL(10,2),
+    stock INT
+);
+
+-- Inserting 20 rows into 'products'
+INSERT INTO products (name, price, stock) VALUES
+('Laptop', 1200.50, 15),
+('Smartphone', 800.99, 30),
+('Tablet', 500.00, 25),
+('Headphones', 150.75, 50),
+('Smartwatch', 199.99, 40),
+('Keyboard', 75.50, 35),
+('Mouse', 45.00, 40),
+('Monitor', 300.99, 20),
+('Printer', 250.50, 10),
+('Speakers', 99.99, 45),
+('Gaming Chair', 220.00, 18),
+('Webcam', 55.99, 30),
+('External HDD', 120.00, 25),
+('Router', 80.75, 35),
+('USB Drive', 20.50, 60),
+('Power Bank', 45.99, 40),
+('VR Headset', 399.99, 15),
+('Microphone', 110.49, 28),
+('Tripod', 70.99, 32),
+('Desk Lamp', 34.99, 50);
+
+-- Creating the 'orders' table
+CREATE TABLE orders (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_id INT,
+    product_id INT,
+    quantity INT,
+    order_date DATE,
+    FOREIGN KEY (customer_id) REFERENCES customers(id),
+    FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+-- Inserting 20 rows into 'orders'
+INSERT INTO orders (customer_id, product_id, quantity, order_date) VALUES
+(1, 2, 1, '2025-01-10'),
+(2, 3, 2, '2025-01-12'),
+(3, 1, 1, '2025-01-15'),
+(4, 5, 1, '2025-01-18'),
+(5, 4, 3, '2025-01-20'),
+(6, 6, 2, '2025-01-22'),
+(7, 7, 1, '2025-01-25'),
+(8, 8, 2, '2025-01-27'),
+(9, 9, 1, '2025-01-30'),
+(10, 10, 4, '2025-02-01'),
+(11, 11, 1, '2025-02-03'),
+(12, 12, 2, '2025-02-05'),
+(13, 13, 1, '2025-02-07'),
+(14, 14, 3, '2025-02-10'),
+(15, 15, 2, '2025-02-12'),
+(16, 16, 1, '2025-02-14'),
+(17, 17, 1, '2025-02-16'),
+(18, 18, 2, '2025-02-18'),
+(19, 19, 1, '2025-02-20'),
+(20, 20, 3, '2025-02-22');
