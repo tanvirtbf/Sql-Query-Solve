@@ -1,3 +1,4 @@
+---------- Medium Qustion -----------
 1️⃣ সর্বাধিক অর্ডার করা প্রোডাক্টের নাম এবং মোট বিক্রির পরিমাণ দেখাও।
 
 SELECT p.name, SUM(o.quantity) AS total_sold
@@ -9,3 +10,21 @@ LIMIT 1;
 2️⃣ একজন গ্রাহক কতটি অর্ডার করেছেন তা দেখাও (customer_id সহ)।
 
 select c.id as customer_id, c.name, count(c.id) from customers c join orders o on c.id=o.customer_id group by o.id;
+
+3️⃣ প্রতিটি প্রোডাক্টের মোট বিক্রিত পরিমাণ এবং অবশিষ্ট স্টক দেখাও।
+
+SELECT p.id, p.name, 
+       COALESCE(SUM(o.quantity), 0) AS total_sold, 
+       (p.stock - COALESCE(SUM(o.quantity), 0)) AS remaining_stock
+FROM products p
+LEFT JOIN orders o ON p.id = o.product_id
+GROUP BY p.id, p.name, p.stock;
+
+4️⃣ সবচেয়ে বেশি অর্ডার করা গ্রাহকের নাম দেখাও।
+
+SELECT c.name, COUNT(o.id) AS total_orders
+FROM customers c
+JOIN orders o ON c.id = o.customer_id
+GROUP BY c.name
+ORDER BY total_orders DESC
+LIMIT 1;
