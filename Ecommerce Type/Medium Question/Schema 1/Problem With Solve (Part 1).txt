@@ -12,3 +12,17 @@ FROM users u
 INNER JOIN orders o ON u.user_id = o.user_id
 GROUP BY u.user_id, u.first_name, u.last_name, u.email
 ORDER BY total_spent DESC;
+
+
+
+প্রশ্ন ২:
+সকল প্রোডাক্টের তালিকা দেখান যেগুলো কখনও অর্ডার করা হয়নি। প্রোডাক্ট নাম, দাম এবং ক্যাটাগরি নাম দেখাতে হবে।
+
+SELECT 
+    p.product_name,
+    p.price,
+    c.category_name
+FROM products p
+LEFT JOIN order_items oi ON p.product_id = oi.product_id
+INNER JOIN categories c ON p.category_id = c.category_id
+WHERE oi.order_item_id IS NULL;
