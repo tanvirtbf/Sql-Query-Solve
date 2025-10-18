@@ -37,9 +37,8 @@ CREATE TABLE ProductPrice (
 
 
 Solve : 
-select distinct a1.student_name from attendance as a1
-    join attendance as a2 on a1.id=a2.id-1
-    join attendance as a3 on a1.id=a3.id-2
-    where a1.status='Present' AND a2.status='Present' AND a3.status='Present';
-
+ select distinct p1.product_name from ProductPrice as p1
+   join ProductPrice as p2 on p1.id=p2.id-1
+    join ProductPrice as p3 on p1.id=p3.id-2
+   where p1.price > p2.price AND p2.price > p3.price;
 
