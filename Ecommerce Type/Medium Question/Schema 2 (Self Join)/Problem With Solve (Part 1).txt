@@ -35,7 +35,6 @@ CREATE TABLE ProductPrice (
 );
 
 
-
 Solve : 
  select distinct p1.product_name from ProductPrice as p1
    join ProductPrice as p2 on p1.id=p2.id-1
