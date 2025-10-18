@@ -1,6 +1,16 @@
 প্রশ্ন ১:
 যে ছাত্ররা টানা ৩ দিন উপস্থিত ছিল (status = 'Present'), তাদের নাম বের করো।
 
+
+Schema : 
+CREATE TABLE Attendance (
+    id INT PRIMARY KEY,
+    student_name VARCHAR(50),
+    attend_date DATE,
+    status VARCHAR(10)
+);
+
+
 Solve : 
 select distinct a1.student_name from attendance as a1
     join attendance as a2 on a1.id=a2.id-1
