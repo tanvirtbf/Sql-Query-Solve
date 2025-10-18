@@ -22,7 +22,7 @@ select distinct a1.student_name from attendance as a1
 
 
 
-প্রশ্ন ১:
+প্রশ্ন 2:
 একটা প্রোডাক্টের দাম যদি টানা ৩ দিনে কমে (price decreases), তাহলে সেই প্রোডাক্টের নাম বের করো।
 
 
@@ -41,3 +41,25 @@ Solve :
     join ProductPrice as p3 on p1.id=p3.id-2
    where p1.price > p2.price AND p2.price > p3.price;
 
+
+
+
+প্রশ্ন 3:
+যে ইউজাররা টানা ৩ বার ভুল পাসওয়ার্ড দিয়েছে (failed login) তাদের বের করো।
+
+
+Schema : 
+CREATE TABLE LoginAttempts (
+    id INT PRIMARY KEY,
+    username VARCHAR(50),
+    attempt_time DATETIME,
+    status VARCHAR(10) -- 'Success' or 'Failed'
+);
+
+
+
+Solve : 
+select distinct l1.username from LoginAttempts as l1
+    -> join LoginAttempts as l2 on l1.id=l2.id-1
+    -> join LoginAttempts as l3 on l1.id=l3.id-2
+    -> where l1.status=l2.status and l2.status=l3.status and l2.status='Failed';
