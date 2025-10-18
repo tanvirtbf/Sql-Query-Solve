@@ -18,3 +18,28 @@ select distinct a1.student_name from attendance as a1
     where a1.status='Present' AND a2.status='Present' AND a3.status='Present';
 
 
+
+
+
+
+প্রশ্ন ১:
+একটা প্রোডাক্টের দাম যদি টানা ৩ দিনে কমে (price decreases), তাহলে সেই প্রোডাক্টের নাম বের করো।
+
+
+Schema : 
+CREATE TABLE ProductPrice (
+    id INT PRIMARY KEY,
+    product_name VARCHAR(50),
+    price_date DATE,
+    price DECIMAL(10,2)
+);
+
+
+
+Solve : 
+select distinct a1.student_name from attendance as a1
+    join attendance as a2 on a1.id=a2.id-1
+    join attendance as a3 on a1.id=a3.id-2
+    where a1.status='Present' AND a2.status='Present' AND a3.status='Present';
+
+
